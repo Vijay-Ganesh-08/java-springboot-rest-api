@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.training.springbootrestapi.model.Employee;
 import org.training.springbootrestapi.repository.EmployeeRepo;
 
@@ -26,5 +23,16 @@ public class EmployeeController {
         return list;
     }
 
+    @GetMapping("getEmployee")
+    @ResponseBody
+    public Employee getEmployees(@RequestParam int eid) {
+        Employee employee = employeeRepo.findById(eid).orElse(new Employee(0,"",""));
+        return employee;
+    }
 
+    @GetMapping("getEmployee/{eid}")
+    @ResponseBody
+    public Employee getEmployee(@PathVariable("eid") int eid) {
+        return employeeRepo.findById(eid).orElse(new Employee(0,"",""));
+    }
 }
