@@ -10,13 +10,13 @@ import org.training.springbootrestapi.repository.EmployeeRepo;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class EmployeeController {
 
     @Autowired
     EmployeeRepo employeeRepo;
 
-    @GetMapping("getEmployees")
+    @GetMapping(path="getEmployees",produces = {"application/json","application/xml"})
     @ResponseBody
     public List<Employee> getAliens() {
         List<Employee> list =  employeeRepo.findAll();
@@ -24,15 +24,20 @@ public class EmployeeController {
     }
 
     @GetMapping("getEmployee")
-    @ResponseBody
     public Employee getEmployees(@RequestParam int eid) {
         Employee employee = employeeRepo.findById(eid).orElse(new Employee(0,"",""));
         return employee;
     }
 
     @GetMapping("getEmployee/{eid}")
-    @ResponseBody
     public Employee getEmployee(@PathVariable("eid") int eid) {
         return employeeRepo.findById(eid).orElse(new Employee(0,"",""));
     }
+
+    @PostMapping("addEmployee")
+    public Employee addEmployee(Employee employee) {
+        return employeeRepo.save(employee);
+    }
+
+//    @PutMapping
 }
